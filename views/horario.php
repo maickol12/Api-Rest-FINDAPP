@@ -5,7 +5,7 @@
     $app->get('/horarios',function(Request $req,Response $res,$args){
       $horarios = Horario::get();
       if(count($horarios)<=0) return sendResponse(json_encode(array('message'=>'No se encontraron horarios')),$res,404);
-      sendResponse($horarios->toJson(),$res,200);
+      return sendResponse($horarios->toJson(),$res,200);
     });
     $app->post('/horarios',function(Request $req,Response $res,$args){
       $data = $req->getParsedBody();
@@ -18,7 +18,7 @@
       if($horario->save()){
         return sendResponse($horario->toJson(),$res,200);
       }
-      sendResponse(json_encode(array('message'=>'Ocurrio un error')),$res,500);
+      return sendResponse(json_encode(array('message'=>'Ocurrio un error')),$res,500);
 
     });
     $app->put('/horarios',function(Request $req,Response $res,$args){
@@ -32,7 +32,7 @@
       if($horario->save()){
         return sendResponse($horario->toJson(),$res,200);
       }
-      sendResponse(json_encode(array('message'=>'Ocurrio un error')),$res,500);
+      return sendResponse(json_encode(array('message'=>'Ocurrio un error')),$res,500);
     });
 
 ?>

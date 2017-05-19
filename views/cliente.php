@@ -5,12 +5,12 @@
     $clientes = Cliente::where('habilitado',1)->get();
     if($clientes->isEmpty()) return sendResponse(json_encode(array('message'=>'no se encontro')),$res,404);
 
-    sendResponse($clientes->toJson(),$res,200);
+    return sendResponse($clientes->toJson(),$res,200);
   });
   $app->get('/clientes/{idCliente}',function(Request $req,Response $res,$args){
     $idCliente = $args['clientes'];
     $cliente = Cliente::findOrFail($idCliente);
-    sendResponse($cliente->toJson(),$res,200);
+    return sendResponse($cliente->toJson(),$res,200);
   });
   $app->post('/clientes',function(Request $req,Response $res,$args){
       $data = $req->getParsedBody();
@@ -36,7 +36,7 @@
       if($cliente->save()){
         return sendResponse($cliente->toJson(),$res,200);
       }
-      sendResponse(json_encode(array('message'=>'Ocurrio un error')),$res,500);
+      return sendResponse(json_encode(array('message'=>'Ocurrio un error')),$res,500);
   });
   $app->put('/clientes',function(Request $req,Response $res,$args){
     $data = $req->getParsedBody();
@@ -48,6 +48,6 @@
       $cliente->save();
       return sendResponse($cliente->toJson(),$res,200);
     }
-    sendResponse(json_encode(array('message','No se encontro el cliente '.$idCliente)),$res,500);
+    return sendResponse(json_encode(array('message','No se encontro el cliente '.$idCliente)),$res,500);
   });
 ?>

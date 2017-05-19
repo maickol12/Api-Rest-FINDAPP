@@ -5,7 +5,7 @@
   $app->get('/negocio/tiempo',function(Request $req,Response $res,$args){
     $tiempo = Tiempo::get();
     if(count($tiempo)<=0) return sendResponse(json_encode(array('message'=>'No se encontaron tiempos')),$res,500);
-    sendResponse($tiempo->toJson(),$res,200);
+    return sendResponse($tiempo->toJson(),$res,200);
   });
   $app->post('/negocio/tiempo',function(Request $req,Response $res,$args){
     $data = $req->getParsedBody();
@@ -19,7 +19,7 @@
     if($tiempo->save()){
       return sendResponse($tiempo->toJson(),$res,200);
     }
-    sendResponse(json_encode(array('message'=>'Ocurrio un error')),$res,500);
+    return sendResponse(json_encode(array('message'=>'Ocurrio un error')),$res,500);
   });
   $app->put('/negocio/tiempo/{idTiempo}',function(Request $req,Response $res,$args){
     $data = $req->getParsedBody();

@@ -5,19 +5,19 @@
     $NegocioId = $args['NegocioId'];
     $clienteun = ClienteUN::where('negocio_id','=',$NegocioId)->where('habilitado','=',1)->get();
     if($clienteun->isEmpty()) return sendResponse(json_encode(array('message'=>'No se encontro')),$res,404);
-    sendResponse($clienteun->toJson(),$res,200);
+    return sendResponse($clienteun->toJson(),$res,200);
   });
   $app->get('/negocio/clienteUN/id/{id}',function(Request $req,Response $res,$args){
     $id = $args['id'];
     $cliente = ClienteUN::where('id','=',$id)->where('habilitado','=',1)->get();
     if($cliente->isEmpty()) return sendResponse(json_encode(array('message'=>'No se encontro')),$res,404);
-    sendResponse($cliente->toJson(),$res,200);
+    return sendResponse($cliente->toJson(),$res,200);
   });
   $app->post('/negocio/clienteUN',function(Request $req,Response $res,$args){
     $data = $req->getParsedBody();
     $cun = ClienteUN::where('correo','=',$data['correo'])->get();
     if(count($cun)>0) return sendResponse(json_encode(array('message'=>'Ese correo ya existe')),$res,500);
-    
+
     $cliente = new ClienteUN();
     $cliente->nombre = $data['nombre'];
     $cliente->apellidos = $data['apellidos'];
@@ -33,7 +33,7 @@
     if($cliente->save()){
       return sendResponse($cliente->toJson(),$res,200);
     }
-    sendResponse(json_encode(array('message'=>'Ocurrio un error')),$res,500);
+    return sendResponse(json_encode(array('message'=>'Ocurrio un error')),$res,500);
   });
   $app->put('/negocio/clienteUN',function(Request $req,Response $res,$args){
     $data = $req->getParsedBody();
@@ -43,6 +43,6 @@
     if(count($cun)<=0) return sendResponse(json_encode(array('message'=>'No se encontro')),$res,404);
     $cun->habilitado = $habilitado;
     if($cun->save()) return sendResponse($cun->toJson(),$res,200);
-    sendResponse(json_encode(array('message'=>'Ocurrio un error')),$res,500);
+    return sendResponse(json_encode(array('message'=>'Ocurrio un error')),$res,500);
   });
 ?>

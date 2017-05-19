@@ -29,7 +29,7 @@
     if($negocio->save()){
       return sendResponse($negocio->toJson(),$res,200);
     }
-    sendResponse(json_encode(array('message'=>'error')),$res,500);
+    return sendResponse(json_encode(array('message'=>'error')),$res,500);
 
   });
   $app->get('/negocios/{idNegocio}',function(Request $req,Response $res,$args){
